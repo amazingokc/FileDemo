@@ -13,7 +13,7 @@ import java.time.Instant
 import java.time.ZoneOffset
 import java.time.format.DateTimeFormatter
 
-class FileListAdapter(private var fileList: MutableList<FileBean>) :
+class FileListAdapter(private var fileList: MutableList<FileBean>?) :
     RecyclerView.Adapter<FileListAdapter.MyViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): MyViewHolder {
@@ -23,13 +23,13 @@ class FileListAdapter(private var fileList: MutableList<FileBean>) :
     }
 
     override fun getItemCount(): Int {
-        return fileList.size
+        return if (fileList == null) 0 else fileList!!.size
     }
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
-        holder.tvFileName.text = fileList[position].fn
+        holder.tvFileName.text = fileList?.get(position)?.fn
         holder.tvFileSizeAndTime.text =
-            handleTime(fileList[position].fs, fileList[position].upt)
+            handleTime(fileList?.get(position)?.fs, fileList?.get(position)?.upt)
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -41,9 +41,9 @@ class FileListAdapter(private var fileList: MutableList<FileBean>) :
     //格式化文件大小与创建时间
     @SuppressLint("SimpleDateFormat")
     private fun handleTime(fs: String?, upt: String?): String {
-        val size : Float? = fs?.toFloat()?.div((1024 * 1024))
-        val handleSize : String? = String.format("%.2f", size)
-        val time = SimpleDateFormat("yy-MM-DD hh-mm").format(upt?.toLong())
-        return "${handleSize}M  $time"
+        val size: Float? = fs?.toFloat()?.div((1024 * 1024))
+        val handleSize: String? = String.format("%.2f", size)
+        val time = SimpleDateFormat("yyyy-MM-dd hh:mm").format(1000 * upt?.toLong()!!)
+        return "${handleSize}M   $time"
     }
 }

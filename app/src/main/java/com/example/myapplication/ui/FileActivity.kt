@@ -36,6 +36,10 @@ class FileActivity : MvpActivity<FileContract.View, FileContract.Presenter>(),
             layoutManager = viewLayoutManager
             adapter = fileListAdapter
         }
+
+        fab_add_file_filectivity.setOnClickListener {
+            filePresenter.addFile()
+        }
     }
 
     override fun initData() {
@@ -43,8 +47,16 @@ class FileActivity : MvpActivity<FileContract.View, FileContract.Presenter>(),
     }
 
     override fun getFilesBeanSuccess() {
-        Log.d(tag, "${filePresenter.fileList.size}")
         fileListAdapter.notifyDataSetChanged()
+    }
+
+    override fun addFileSuccess() {
+        fileListAdapter.notifyItemInserted(0 )
+        rv_fileList_filectivity.smoothScrollToPosition(0)
+    }
+
+    override fun deleteFileSuccess() {
+        TODO("Not yet implemented")
     }
 
     override fun showError(errorMsg: String) {

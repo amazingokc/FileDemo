@@ -37,6 +37,36 @@ class FilePresenter : BasePresenter<FileContract.Model, FileContract.View>(),
         }
     }
 
+    override fun addFile() {
+        (view as FileActivity?)?.lifecycleScope?.launch(Dispatchers.Main) {
+            view?.showLoading()
+            try {
+                withContext(Dispatchers.IO) {
+                    model?.addFile()?.let { fileList.add(0, it) }
+                }
+                view?.addFileSuccess()
+            } catch (e: Exception) {
+                view?.showError("添加文件失败${e.toString()}")
+            }
+            view?.hideLoading()
+        }
+    }
+
+    override fun deleteFile(deletePosition: Int) {
+        (view as FileActivity?)?.lifecycleScope?.launch(Dispatchers.Main) {
+            view?.showLoading()
+            try {
+                withContext(Dispatchers.IO) {
+                    model?.deleteFile(deletePosition)
+                }
+                view?.deleteFileSuccess()
+            } catch (e: Exception) {
+                view?.showError("删除文件失败${e.toString()}")
+            }
+            view?.hideLoading()
+        }
+    }
+
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
         super.onStateChanged(source, event)
         if (event == Lifecycle.Event.ON_DESTROY) {
@@ -44,8 +74,6 @@ class FilePresenter : BasePresenter<FileContract.Model, FileContract.View>(),
             (view as FileActivity?)?.lifecycleScope?.cancel()
         }
     }
-
-
 
 
 }
