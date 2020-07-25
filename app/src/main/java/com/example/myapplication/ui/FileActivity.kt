@@ -30,7 +30,11 @@ class FileActivity : MvpActivity<FileContract.View, FileContract.Presenter>(),
         super.initView()
         fileListAdapter = FileListAdapter(filePresenter.fileList)
         viewLayoutManager = LinearLayoutManager(this)
-
+        fileListAdapter.setClickListener(object : FileListAdapter.ClickListener {
+            override fun clickItem(position: Int) {
+                filePresenter.deleteFile(position)
+            }
+        })
         rv_fileList_filectivity.apply {
             setHasFixedSize(true)
             layoutManager = viewLayoutManager
@@ -51,12 +55,15 @@ class FileActivity : MvpActivity<FileContract.View, FileContract.Presenter>(),
     }
 
     override fun addFileSuccess() {
-        fileListAdapter.notifyItemInserted(0 )
+        fileListAdapter.notifyItemInserted(0)
         rv_fileList_filectivity.smoothScrollToPosition(0)
     }
 
-    override fun deleteFileSuccess() {
-        TODO("Not yet implemented")
+    override fun deleteFileSuccess(deletePosition: Int) {
+        // TODO: 2020/7/25 删除逻辑有bug 
+        fileListAdapter.notifyItemRemoved(deletePosition)
+        fileListAdapter.notifyItemRangeChanged(0,
+            filePresenter.fileList.size - deletePosition)
     }
 
     override fun showError(errorMsg: String) {

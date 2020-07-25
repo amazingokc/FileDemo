@@ -1,10 +1,12 @@
 package com.example.myapplication.adapter
 
 import android.annotation.SuppressLint
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.bean.FileBean
@@ -30,10 +32,16 @@ class FileListAdapter(private var fileList: MutableList<FileBean>?) :
         holder.tvFileName.text = fileList?.get(position)?.fn
         holder.tvFileSizeAndTime.text =
             handleTime(fileList?.get(position)?.fs, fileList?.get(position)?.upt)
+        holder.clItem.setOnLongClickListener {
+            Log.e("", "")
+            clickListener?.clickItem(position)
+            true
+        }
     }
 
     class MyViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tvFileName: TextView = itemView.findViewById(R.id.tv_file_name_filelistadapter)
+        var clItem: ConstraintLayout = itemView.findViewById(R.id.cl_item_filelistadapter)
         var tvFileSizeAndTime: TextView =
             itemView.findViewById(R.id.tv_file_size_time_filelistadapter)
     }
@@ -45,5 +53,15 @@ class FileListAdapter(private var fileList: MutableList<FileBean>?) :
         val handleSize: String? = String.format("%.2f", size)
         val time = SimpleDateFormat("yyyy-MM-dd hh:mm").format(1000 * upt?.toLong()!!)
         return "${handleSize}M   $time"
+    }
+
+    private var clickListener: ClickListener? = null
+
+    public fun setClickListener(clickListener: ClickListener) {
+        this.clickListener = clickListener
+    }
+
+    interface ClickListener {
+        fun clickItem(position: Int)
     }
 }

@@ -57,9 +57,10 @@ class FilePresenter : BasePresenter<FileContract.Model, FileContract.View>(),
             view?.showLoading()
             try {
                 withContext(Dispatchers.IO) {
-                    model?.deleteFile(deletePosition)
+                    model?.deleteFile(fileList[deletePosition])
+                    fileList.removeAt(deletePosition)
                 }
-                view?.deleteFileSuccess()
+                view?.deleteFileSuccess(deletePosition)
             } catch (e: Exception) {
                 view?.showError("删除文件失败${e.toString()}")
             }

@@ -12,7 +12,7 @@ interface FileContract {
 
         fun getFilesBeanSuccess()
         fun addFileSuccess()
-        fun deleteFileSuccess()
+        fun deleteFileSuccess(deletePosition: Int)
     }
 
     interface Presenter : IPresenter<View> {
@@ -24,6 +24,6 @@ interface FileContract {
     interface Model : IModel {
         suspend fun getFilesBean(): FilesBean?
         fun addFile(): FileBean?
-        fun deleteFile(deletePosition: Int) : FilesBean?
+        fun deleteFile(fileBean: FileBean)
     }
 }

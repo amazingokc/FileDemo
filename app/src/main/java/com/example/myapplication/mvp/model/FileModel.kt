@@ -30,8 +30,8 @@ class FileModel : BaseModel(),
             Random.nextInt(1, 100000).toString(),
             Random.nextInt(1, 100000).toString(),
             "fileName${Random.nextInt(1, 100000).toString()}.png",
-            "${5 * 1024 * 1024}",
-            "${System.currentTimeMillis()}"
+            "${System.currentTimeMillis()/1000}",
+            "${5 * 1024 * 1024}"
         )
 
         filesBean?.let {
@@ -40,8 +40,8 @@ class FileModel : BaseModel(),
         return fileBean
     }
 
-    override fun deleteFile(deletePosition: Int): FilesBean? {
-        TODO("Not yet implemented")
+    override fun deleteFile(fileBean: FileBean) {
+        filesBean?.data?.remove(fileBean)
     }
 
     override suspend fun getLoalData(): FilesBean? {
