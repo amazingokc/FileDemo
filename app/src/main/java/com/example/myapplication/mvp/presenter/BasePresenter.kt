@@ -26,21 +26,15 @@ abstract class BasePresenter<M : IModel, V : IView> : IPresenter<V>, LifecycleEv
         }
     }
 
-    override fun detachView() {
-        if (view is LifecycleOwner) {
-            (view as LifecycleOwner).lifecycle.removeObserver(this)
-            if (model != null && model is LifecycleObserver) {
-                (view as LifecycleOwner).lifecycle.removeObserver(model as LifecycleObserver)
-            }
-        }
+    override fun detachView(source: LifecycleOwner) {
+        source.lifecycle.removeObserver(this)
         this.model = null
         this.view = null
     }
 
     override fun onStateChanged(source: LifecycleOwner, event: Lifecycle.Event) {
-        Log.d("onStateChangedonS", event.name)
         if (event == Lifecycle.Event.ON_DESTROY) {
-            detachView()
+            detachView(source)
         }
     }
 

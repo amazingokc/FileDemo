@@ -1,5 +1,6 @@
 package com.example.myapplication.mvp.presenter
 
+import androidx.lifecycle.LifecycleOwner
 import com.example.myapplication.mvp.view.IView
 
 interface IPresenter<V : IView> {
@@ -12,5 +13,5 @@ interface IPresenter<V : IView> {
     /**
      * 解绑 View
      */
-   fun detachView()
+   fun detachView(source: LifecycleOwner)
 }

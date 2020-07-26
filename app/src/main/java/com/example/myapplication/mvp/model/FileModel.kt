@@ -19,15 +19,12 @@ class FileModel : BaseModel(),
 
 
     override suspend fun getFilesBean(): FilesBean? {
+        //优先获取本地数据
         filesBean = getLoalData()
+        //如果本地没有数据则获取接口数据
         if (filesBean == null) {
             filesBean = getRemoteData()
         }
-
-//        if (filesBean?.data?.size!! > 1) {
-//            quickSort(filesBean?.data, 0, filesBean?.data?.size!! - 1)
-//        }
-
         return filesBean;
     }
 
@@ -42,6 +39,7 @@ class FileModel : BaseModel(),
 
         filesBean?.let {
             it.data?.add(fileBean)
+            //新增的数据插入数据库
             DataBaseUtil.insertOrReplaceFile(fileBean)
         }
         return fileBean
