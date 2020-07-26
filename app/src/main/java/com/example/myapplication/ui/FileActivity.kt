@@ -55,20 +55,20 @@ class FileActivity : MvpActivity<FileContract.View, FileContract.Presenter>(),
     }
 
     override fun addFileSuccess() {
-        fileListAdapter.notifyItemInserted(0)
-        rv_fileList_filectivity.smoothScrollToPosition(0)
+        fileListAdapter.notifyItemInserted(filePresenter.fileList.size - 1)
+        rv_fileList_filectivity.smoothScrollToPosition(filePresenter.fileList.size - 1)
     }
 
     override fun deleteFileSuccess(deletePosition: Int) {
-        // TODO: 2020/7/25 删除逻辑有bug 
         fileListAdapter.notifyItemRemoved(deletePosition)
-        fileListAdapter.notifyItemRangeChanged(0,
-            filePresenter.fileList.size - deletePosition)
+        fileListAdapter.notifyItemRangeChanged(
+            deletePosition,
+            filePresenter.fileList.size - deletePosition
+        )
     }
 
     override fun showError(errorMsg: String) {
         Log.d(tag, "showError")
     }
-
 
 }

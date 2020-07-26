@@ -23,7 +23,7 @@ interface FileContract {
 
     interface Model : IModel {
         suspend fun getFilesBean(): FilesBean?
-        fun addFile(): FileBean?
-        fun deleteFile(fileBean: FileBean)
+        suspend fun  addFile(): FileBean?
+        suspend fun deleteFile(fileBean: FileBean)
     }
 }

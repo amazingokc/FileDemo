@@ -1,6 +1,7 @@
 apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
+apply plugin: 'org.greenrobot.greendao'
 
 android {
     compileSdkVersion 29
@@ -22,6 +23,12 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+
+    greendao {
+        schemaVersion 1
+        daoPackage 'com.example.greendao.gen'
+        targetGenDir 'src/main/java'
+    }
 }
 
 dependencies {
@@ -41,5 +48,10 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0'
     implementation 'androidx.recyclerview:recyclerview:1.1.0'
     implementation 'com.google.android.material:material:1.1.0'
+    //greendao
+    implementation 'org.greenrobot:greendao:3.2.2'
+    implementation 'com.github.yuweiguocn:GreenDaoUpgradeHelper:v2.0.3'
+    // add library
+    implementation 'org.greenrobot:greendao-generator:3.2.2'
 
 }

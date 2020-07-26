@@ -11,9 +11,6 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.myapplication.R
 import com.example.myapplication.bean.FileBean
 import java.text.SimpleDateFormat
-import java.time.Instant
-import java.time.ZoneOffset
-import java.time.format.DateTimeFormatter
 
 class FileListAdapter(private var fileList: MutableList<FileBean>?) :
     RecyclerView.Adapter<FileListAdapter.MyViewHolder>() {
@@ -51,7 +48,7 @@ class FileListAdapter(private var fileList: MutableList<FileBean>?) :
     private fun handleTime(fs: String?, upt: String?): String {
         val size: Float? = fs?.toFloat()?.div((1024 * 1024))
         val handleSize: String? = String.format("%.2f", size)
-        val time = SimpleDateFormat("yyyy-MM-dd hh:mm").format(1000 * upt?.toLong()!!)
+        val time = SimpleDateFormat("yyyy-MM-dd HH:mm").format(1000 * upt?.toLong()!!)
         return "${handleSize}M   $time"
     }
 

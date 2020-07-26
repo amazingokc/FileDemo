@@ -3,9 +3,9 @@ package com.example.myapplication.mvp.presenter
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.bean.FileBean
 import com.example.myapplication.mvp.contract.FileContract
 import com.example.myapplication.mvp.model.FileModel
-import com.example.myapplication.bean.FileBean
 import com.example.myapplication.ui.FileActivity
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.cancel
@@ -42,7 +42,7 @@ class FilePresenter : BasePresenter<FileContract.Model, FileContract.View>(),
             view?.showLoading()
             try {
                 withContext(Dispatchers.IO) {
-                    model?.addFile()?.let { fileList.add(0, it) }
+                    model?.addFile()?.let { fileList.add(it) }
                 }
                 view?.addFileSuccess()
             } catch (e: Exception) {
